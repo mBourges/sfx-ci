@@ -2,13 +2,18 @@
   "name": "sfdx-ci",
   "version": "1.0.0",
   "description": "Nodejs scripts to be executed during CI",
-  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mBourges/sfx-ci.git"
+  },
+  "engines": {
+    "node": ">=12"
+  },
+  "preferGlobal": true,
   "bin": {
     "sfdx-ci": "bin/index"
   },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "scripts": {},
   "author": "Matt B",
   "license": "MIT",
   "dependencies": {
