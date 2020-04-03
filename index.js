@@ -17,6 +17,18 @@ module.exports = async () => {
         await require('./cmds/create')(args)
         break
 
+      case 'push':
+        await require('./cmds/push')(args)
+        break
+
+      case 'package':
+        await require('./cmds/package')(args)
+        break
+
+      case 'install':
+        await require('./cmds/install')(args)
+        break
+
       case 'version':
         require('./cmds/version')()
         break
