@@ -1,0 +1,17 @@
+{
+  "name": "sfdx-ci",
+  "version": "1.0.0",
+  "description": "Nodejs scripts to be executed during CI",
+  "main": "index.js",
+  "bin": {
+    "sfdx-ci": "bin/index"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Matt B",
+  "license": "MIT",
+  "dependencies": {
+    "minimist": "^1.2.5"
+  }
+}
