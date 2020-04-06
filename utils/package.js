@@ -30,12 +30,14 @@ function report({ devhub, requestId }, cmdOptions) {
   });
 }
 
-function install({ targetOrg, packageVersionId }) {
+function install({ targetOrg, packageVersionId }, cmdOptions) {
+  const loggerOptions = { message: `Start ${packageVersionId} package version installation in ${targetOrg}.`, ...cmdOptions};
+
   return new Promise((resolve, reject) => {
     const child = new CommandStream(
       'sfdx',
       ['force:package:install', '--json', '--targetusername', targetOrg, '--noprompt', '--package', packageVersionId],
-      `Start ${packageVersionId} package version installation in ${targetOrg}.`
+      loggerOptions
     );
 
     child.on('done', result => { resolve(result); });
@@ -43,12 +45,14 @@ function install({ targetOrg, packageVersionId }) {
   });
 }
 
-function reportInstallation({ targetOrg, requestId }) {
+function reportInstallation({ targetOrg, requestId }, cmdOptions) {
+  const loggerOptions = { message: `Checking ${requestId} package version installation in ${targetOrg}.`, ...cmdOptions};
+
   return new Promise((resolve, reject) => {
     const child = new CommandStream(
       'sfdx',
       ['force:package:install:report', '--json', '-i', requestId, '-u', targetOrg],
-      `Checking ${requestId} package version installation in ${targetOrg}.`
+      loggerOptions
     );
 
     child.on('done', result => { resolve(result); });
