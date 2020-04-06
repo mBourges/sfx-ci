@@ -17,27 +17,28 @@ const menus = {
     --devhub, -b ........ devhub to use, Default: default devhub
     --alias, -a ......... alias for the org, mandatory
     --duration, -d ...... scratch duration, default: 1
-    --file, -f .......... definition file to use, default: './config/project-scratch-def.json'`,
+    --file, -f .......... definition file to use, default: './config/project-scratch-def.json'
+    -- verbose .......... verbose mode`,
 
   push: `
     sfdx-cli push <options>
 
     --alias, -a ......... alias for the org, mandatory
-  `,
+    -- verbose .......... verbose mode`,
 
   package: `
     sfdx-cli package <options>
 
     --name, -n ......... Package name to create a version for
     --devhub, -b ....... devhub to use, Default: default devhub
-  `,
+    -- verbose ......... verbose mode`,
 
   install: `
     sfdx-cli install <options>
 
     --org, -o ......... Target org for installation
     --id, -i .......... Package version id to install
-  `,
+    -- verbose ........ verbose mode`,
 }
 
 module.exports = (args) => {
