@@ -9,12 +9,13 @@ async function waitForDelay(millis) {
 }
 
 module.exports = async (args) => {
+  const cmdOptions = { verbose: args.verbose || false };
   const options = {
     devhub: args.devhub || args.b,
     name:  args.name || args.n
   }
 
-  const result = await create(options);
+  const result = await create(options, cmdOptions);
 
   if (result.status === 1) {
     throw new SfdxException(result);
@@ -22,16 +23,16 @@ module.exports = async (args) => {
 
   const { Id } = result.result;
   let counter = 1;
-  let reportResult = await report({ devhub: options.devhub, requestId: Id});
+  let reportResult = await report({ devhub: options.devhub, requestId: Id}, cmdOptions);
 
   while(reportResult.result[0].Status !== 'Success' && reportResult.result[0].Status !== 'Error') {
     process.stdout.write(`Waiting for retry #${counter}`)
     await waitForDelay(5000);
     line.clearLine(process.stdout, 0)
     line.cursorTo(process.stdout, 0)
-    reportResult = await report({ devhub: options.devhub, requestId: Id});
+    reportResult = await report({ devhub: options.devhub, requestId: Id}, cmdOptions);
     counter += 1;
   }
 
-  console.log(reportResult)
+  process.stdout.write(JSON.stringify(reportResult));
 }

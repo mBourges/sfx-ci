@@ -1,11 +1,13 @@
 const CommandStream = require('../lib/command-stream');
 
-function create({ devhub, name }) {
+function create({ devhub, name }, cmdOptions) {
+  const loggerOptions = { ...cmdOptions, message: `Start ${name} package version creation on ${devhub}`};
+
   return new Promise((resolve, reject) => {
     const child = new CommandStream(
       'sfdx',
       ['force:package:version:create', '--json', '-v', devhub, '-p', name, '-x'],
-      `Start ${name} package version creation on ${devhub}`
+      loggerOptions
     );
 
     child.on('done', result => { resolve(result); });
@@ -13,12 +15,14 @@ function create({ devhub, name }) {
   });
 }
 
-function report({ devhub, requestId }) {
+function report({ devhub, requestId }, cmdOptions) {
+  const loggerOptions = { message: `Checking ${requestId} package version creation`, ...cmdOptions};
+
   return new Promise((resolve, reject) => {
     const child = new CommandStream(
       'sfdx',
       ['force:package:version:create:report', '-v', devhub, '-i', requestId, '--json'],
-      `Checking ${requestId} package version creation`
+      loggerOptions
     );
 
     child.on('done', result => { resolve(result); });
