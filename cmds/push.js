@@ -16,12 +16,13 @@ async function generateOrgOptions(args) {
 }
 
 module.exports = async (args) => {
+  const cmdOptions = { verbose: args.verbose || false };
   const orgOptions = await generateOrgOptions(args);
-  const results = await push(orgOptions);
+  const results = await push(orgOptions, cmdOptions);
 
   if (results.status == 1) {
     throw new SfdxPushException(results);
   }
 
-  console.log(JSON.stringify(results, null, 2));
+  process.stdout.write(JSON.stringify(results));
 }

@@ -1,11 +1,13 @@
 const CommandStream = require('../lib/command-stream');
 
-function push({ alias }) {
+function push({ alias }, cmdOptions) {
+  const loggerOptions = { ...cmdOptions, message: `Push sources to ${alias}`};
+
   return new Promise((resolve, reject) => {
     const child = new CommandStream(
       'sfdx',
       ['force:source:push', '--json', '-u', alias, '-w', '60'],
-      `Push sources to ${alias}`
+      loggerOptions
     );
 
     child.on('done', result => {
