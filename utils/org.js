@@ -1,17 +1,19 @@
 const CommandStream = require('../lib/command-stream');
 const SfdxException = require('../lib/sfdx-exception');
 
-function list(message = 'List orgs') {
+function list(cmdOptions) {
+  const options = {...cmdOptions, message: cmdOptions.message || 'List Orgs'}
   return new Promise((resolve, reject) => {
-    const child = new CommandStream('sfdx', ['force:org:list', '--json'], message);
+    const child = new CommandStream('sfdx', ['force:org:list', '--json'], options);
 
     child.on('done', result => { resolve(result); });
     child.execute();
   });
 }
 
-async function getDefaultDevHub() {
-  const orgs = await list('Fetching Default DevHub information.');
+async function getDefaultDevHub(cmdOptions) {
+  const options = { ... cmdOptions, message: 'Fetching Default DevHub information.' };
+  const orgs = await list(options);
 
   if (orgs.status == 1) {
     throw new SfdxException(orgs);
@@ -40,23 +42,26 @@ function display(username) {
   });
 }
 
-async function isDevHub(username) {
-  const orgs = await list();
+async function isDevHub(username, cmdOptions) {
+  const orgs = await list(cmdOptions);
   const { nonScratchOrgs } = orgs.result;
   const org = nonScratchOrgs.find(
     org => org.alias === username ||  org.username === username
   );
 
-  return org.isDevHub;
+  return org && org.isDevHub;
 }
 
-function create(options) {
+function create(options, cmdOptions) {
+  const { devhub, alias, duration, definitionFile } = options;
+  const loggerOptions = { ...cmdOptions, message: `Create scratch org ${alias} for ${duration} day(s).` };
+
   return new Promise((resolve, reject) => {
-    const { devhub, alias, duration, definitionFile } = options;
     const child = new CommandStream(
       'sfdx',
       ['force:org:create', '--json', '-v', devhub, '-f', definitionFile, '-a', alias, '-d', duration],
-      `Create scratch org ${alias} for ${duration} day(s).`);
+      loggerOptions
+    );
 
     child.on('done', result => { resolve(result); });
     child.execute();

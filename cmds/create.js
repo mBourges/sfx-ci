@@ -1,13 +1,14 @@
-const LOG_SYMBOLS = require('../lib/log-symbols');
+const Logger = require('../lib/logger');
 const { SfdxException } = require('../lib/sfdx-exception');
 const { getDefaultDevHub, isDevHub, create } = require('../utils/org');
 
-async function generateOrgOptions(args) {
+async function generateOrgOptions(args, cmdOptions) {
+  const logger = new Logger(cmdOptions);
   let options = {
     devhub: args.devhub || args.b,
     alias:  args.alias || args.a,
     duration:  args.duration || args.d || 1,
-    definitionFile: args.file || args.f || './config/project-scratch-def.json'
+    definitionFile: args.file || args.f || './config/project-scratch-def.json',
   }
 
   if (!options.alias) {
@@ -18,30 +19,36 @@ async function generateOrgOptions(args) {
   }
 
   if (!options.devhub) {
-    console.log(`${LOG_SYMBOLS.info} Devhub not found. Using Default Devhub`);
+    logger.info('Devhub not found. Using Default Devhub');
 
-    const result = await getDefaultDevHub();
+    const result = await getDefaultDevHub(cmdOptions);
     options = {...options, devhub: result.username };
 
-    console.log(`${LOG_SYMBOLS.info} ${options.devhub} will be used as the DevHub.`);
+    logger.info(`${options.devhub} will be used as the DevHub.`);
   } else {
-    console.log(`${LOG_SYMBOLS.info} Check if ${options.devhub} is a valid Devhub.`);
-    const isDev = await isDevHub(options.devhub);
+    logger.info(`Check if ${options.devhub} is a valid Devhub.`);
+
+    const isDev = await isDevHub(options.devhub, cmdOptions);
+
     if (!isDev) {
-      console.log(`${LOG_SYMBOLS.error} ${options.devhub} is not a valid Devhub.`);
+      logger.error(`${options.devhub} is not a valid Devhub.`);
+
       throw new SfdxException({
         name: 'NoValidDevHub',
         message: `${options.devhub} is not a valid DevHub.`
       });
     }
-    console.log(`${LOG_SYMBOLS.success} ${options.devhub} is a valid Devhub.`);
+
+    logger.success(`${options.devhub} is a valid Devhub.`);
   }
 
   return options;
 }
 
 module.exports = async (args) => {
-  const orgOptions = await generateOrgOptions(args);
-  const orgInformation = await create(orgOptions);
+  const cmdOptions = { verbose: args.verbose || false };
+  const orgOptions = await generateOrgOptions(args, cmdOptions);
+  const orgInformation = await create(orgOptions, cmdOptions);
+
   console.log(orgInformation);
 }
