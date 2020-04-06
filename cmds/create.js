@@ -50,5 +50,5 @@ module.exports = async (args) => {
   const orgOptions = await generateOrgOptions(args, cmdOptions);
   const orgInformation = await create(orgOptions, cmdOptions);
 
-  console.log(orgInformation);
+  process.stdout.write(JSON.stringify(orgInformation));
 }
