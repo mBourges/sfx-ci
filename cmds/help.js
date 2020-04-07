@@ -46,5 +46,5 @@ module.exports = (args) => {
     ? args._[1]
     : args._[0]
 
-  console.log(menus[subCmd] || menus.main)
+  process.stdout.write(menus[subCmd] || menus.main)
 }
