@@ -1,4 +1,3 @@
-const LOG_SYMBOLS = require('../lib/log-symbols');
 const { SfdxException, SfdxPushException } = require('../lib/sfdx-exception');
 const { push } = require('../utils/source');
 
