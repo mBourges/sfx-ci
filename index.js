@@ -21,6 +21,10 @@ module.exports = async () => {
         await require('./cmds/push')(args)
         break
 
+      case 'test':
+        await require('./cmds/test')(args)
+        break
+
       case 'package':
         await require('./cmds/package')(args)
         break
