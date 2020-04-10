@@ -1,5 +1,7 @@
 const CommandStream = require("../lib/command-stream");
 
+const SFDX_CLI = process.env.SFDX_CLI || "sfdx";
+
 function runTests({ targetOrg }, cmdOptions) {
   const loggerOptions = {
     message: `Start running tests in ${targetOrg}.`,
@@ -8,7 +10,7 @@ function runTests({ targetOrg }, cmdOptions) {
 
   return new Promise((resolve, reject) => {
     const child = new CommandStream(
-      "sfdx",
+      SFDX_CLI,
       ["force:apex:test:run", "-u", targetOrg, "-l", "RunLocalTests", "--json"],
       loggerOptions
     );
@@ -28,7 +30,7 @@ function report({ targetOrg, testRunId, outputFolder }, cmdOptions) {
 
   return new Promise((resolve, reject) => {
     const child = new CommandStream(
-      "sfdx",
+      SFDX_CLI,
       [
         "force:apex:test:report",
         "--json",

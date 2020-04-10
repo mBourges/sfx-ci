@@ -1,5 +1,7 @@
 const CommandStream = require("../lib/command-stream");
 
+const SFDX_CLI = process.env.SFDX_CLI || "sfdx";
+
 function query({ targetOrg, queryString }, cmdOptions) {
   const loggerOptions = {
     message: `Running query ${queryString} in ${targetOrg}.`,
@@ -8,7 +10,7 @@ function query({ targetOrg, queryString }, cmdOptions) {
   console.log(queryString);
   return new Promise((resolve, reject) => {
     const child = new CommandStream(
-      "sfdx",
+      SFDX_CLI,
       [
         "force:data:soql:query",
         "--usetoolingapi",
