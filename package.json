@@ -1,6 +1,6 @@
 {
   "name": "sfdx-ci",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "Nodejs scripts to be executed during CI",
   "repository": {
     "type": "git",
