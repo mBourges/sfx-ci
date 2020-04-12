@@ -26,6 +26,13 @@ const menus = {
     --alias, -a ......... alias for the org, mandatory
     -- verbose .......... verbose mode`,
 
+  test: `
+    sfdx-cli test <options>
+
+    --alias, -a ......... alias for the org, mandatory
+    --folder, -f ........ test results folder, default: './test-results'
+    -- verbose .......... verbose mode`,
+
   package: `
     sfdx-cli package <options>
 
@@ -39,12 +46,10 @@ const menus = {
     --org, -o ......... Target org for installation
     --id, -i .......... Package version id to install
     -- verbose ........ verbose mode`,
-}
+};
 
 module.exports = (args) => {
-  const subCmd = args._[0] === 'help'
-    ? args._[1]
-    : args._[0]
+  const subCmd = args._[0] === "help" ? args._[1] : args._[0];
 
-  process.stdout.write(menus[subCmd] || menus.main)
-}
+  process.stdout.write(menus[subCmd] || menus.main);
+};
