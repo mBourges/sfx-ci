@@ -14,38 +14,41 @@ const menus = {
   create: `
     sfdx-cli create <options>
 
-    --devhub, -b ........ devhub to use, Default: default devhub
+    --devhub, -v ........ devhub to use, Default: default devhub
     --alias, -a ......... alias for the org, mandatory
     --duration, -d ...... scratch duration, default: 1
     --file, -f .......... definition file to use, default: './config/project-scratch-def.json'
-    -- verbose .......... verbose mode`,
+    --verbose .......... verbose mode`,
 
   push: `
     sfdx-cli push <options>
 
     --alias, -a ......... alias for the org, mandatory
-    -- verbose .......... verbose mode`,
+    --verbose .......... verbose mode`,
 
   test: `
     sfdx-cli test <options>
 
     --alias, -a ......... alias for the org, mandatory
     --folder, -f ........ test results folder, default: './test-results'
-    -- verbose .......... verbose mode`,
+    --verbose .......... verbose mode`,
 
   package: `
     sfdx-cli package <options>
 
     --name, -n ......... Package name to create a version for
-    --devhub, -b ....... devhub to use, Default: default devhub
-    -- verbose ......... verbose mode`,
+    --tag, -t .......... Package tag, i.e. git commit sha
+    --devhub, -v ....... devhub to use, Default: default devhub
+    --verbose ......... verbose mode`,
 
   install: `
     sfdx-cli install <options>
 
-    --org, -o ......... Target org for installation
-    --id, -i .......... Package version id to install
-    -- verbose ........ verbose mode`,
+    --devhub, -v ....... devhub to use, Default: default devhub
+    --alias, -a ....... Target org for installation
+    --name, -n ........ Package to install
+    --tag, -t ......... Tag to install
+    --verbose ........ verbose mode`,
 };
 
 module.exports = (args) => {
