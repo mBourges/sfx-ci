@@ -2,7 +2,7 @@ const CommandStream = require("../lib/command-stream");
 
 const SFDX_CLI = process.env.SFDX_CLI || "sfdx";
 
-function create({ devhub, name }, cmdOptions) {
+function create({ devhub, name, tag }, cmdOptions) {
   const loggerOptions = {
     ...cmdOptions,
     message: `Start ${name} package version creation on ${devhub}`,
@@ -19,6 +19,8 @@ function create({ devhub, name }, cmdOptions) {
         "-p",
         name,
         "-x",
+        "--tag",
+        tag,
       ],
       loggerOptions
     );
@@ -57,7 +59,7 @@ function report({ devhub, requestId }, cmdOptions) {
   });
 }
 
-function install({ targetOrg, packageVersionId }, cmdOptions) {
+function install({ targetOrg, packageVersionId, tag }, cmdOptions) {
   const loggerOptions = {
     message: `Start ${packageVersionId} package version installation in ${targetOrg}.`,
     ...cmdOptions,
