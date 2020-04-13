@@ -13,7 +13,7 @@ async function waitForDelay(millis) {
 module.exports = async (args) => {
   const cmdOptions = { verbose: args.verbose || false };
   const options = {
-    devhub: args.devhub || args.b,
+    devhub: args.devhub || args.v,
     name: args.name || args.n,
     tag: args.tag || args.t,
   };
