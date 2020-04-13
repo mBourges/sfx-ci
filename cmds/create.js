@@ -1,28 +1,28 @@
-const Logger = require('../lib/logger');
-const { SfdxException } = require('../lib/sfdx-exception');
-const { getDefaultDevHub, isDevHub, create } = require('../utils/org');
+const Logger = require("../lib/logger");
+const { SfdxException } = require("../lib/sfdx-exception");
+const { getDefaultDevHub, isDevHub, create } = require("../utils/org");
 
 async function generateOrgOptions(args, cmdOptions) {
   const logger = new Logger(cmdOptions);
   let options = {
-    devhub: args.devhub || args.b,
-    alias:  args.alias || args.a,
-    duration:  args.duration || args.d || 1,
-    definitionFile: args.file || args.f || './config/project-scratch-def.json',
-  }
+    devhub: args.devhub || args.v,
+    alias: args.alias || args.a,
+    duration: args.duration || args.d || 1,
+    definitionFile: args.file || args.f || "./config/project-scratch-def.json",
+  };
 
   if (!options.alias) {
     throw new SfdxException({
-      name: 'NoAliasDefined',
-      message: 'Org Alias is not defined.'
+      name: "NoAliasDefined",
+      message: "Org Alias is not defined.",
     });
   }
 
   if (!options.devhub) {
-    logger.info('Devhub not found. Using Default Devhub');
+    logger.info("Devhub not found. Using Default Devhub");
 
     const result = await getDefaultDevHub(cmdOptions);
-    options = {...options, devhub: result.username };
+    options = { ...options, devhub: result.username };
 
     logger.info(`${options.devhub} will be used as the DevHub.`);
   } else {
@@ -34,8 +34,8 @@ async function generateOrgOptions(args, cmdOptions) {
       logger.error(`${options.devhub} is not a valid Devhub.`);
 
       throw new SfdxException({
-        name: 'NoValidDevHub',
-        message: `${options.devhub} is not a valid DevHub.`
+        name: "NoValidDevHub",
+        message: `${options.devhub} is not a valid DevHub.`,
       });
     }
 
@@ -51,4 +51,4 @@ module.exports = async (args) => {
   const orgInformation = await create(orgOptions, cmdOptions);
 
   process.stdout.write(JSON.stringify(orgInformation));
-}
+};
